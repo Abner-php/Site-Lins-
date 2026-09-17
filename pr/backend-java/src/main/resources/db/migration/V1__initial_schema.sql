@@ -1,0 +1,6 @@
+create table users (id uuid primary key, name varchar(120) not null, email varchar(180) not null unique, password_hash varchar(100) not null, role varchar(20) not null default 'STUDENT', created_at timestamptz not null default now());
+create table courses (id uuid primary key, slug varchar(80) unique not null, title varchar(150) not null, price_cents integer not null, published boolean not null default false);
+create table modules (id uuid primary key, course_id uuid references courses(id) on delete cascade, position integer not null, title varchar(160) not null, description text, video_url text, published boolean not null default false, unique(course_id,position));
+create table enrollments (id uuid primary key, user_id uuid references users(id), course_id uuid references courses(id), status varchar(20) not null default 'PENDING', payment_id varchar(160), created_at timestamptz not null default now(), unique(user_id,course_id));
+create table bookings (id uuid primary key, student_name varchar(120) not null, student_phone varchar(30), instrument varchar(20) not null, starts_at timestamptz not null, status varchar(20) not null default 'PENDING');
+insert into courses (id,slug,title,price_cents,published) values ('4b39feb9-0a46-41a7-90f7-cb14d5bb91a1','guitarra-essencial','Guitarra Essencial',29700,true);

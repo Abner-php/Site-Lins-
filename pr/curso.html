@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="description" content="Curso online de guitarra com Jonas Lins.">
+  <title>Guitarra Essencial | Jonas Lins</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="curso.css">
+</head>
+<body>
+  <header><a class="logo" href="index.html"><span>JL</span> JONAS LINS</a><nav><a href="#modulos">Módulos</a><a href="#sobre">O curso</a><button class="login-trigger">Entrar</button><button class="enroll-trigger">Quero participar <b>↗</b></button></nav></header>
+  <main>
+    <section class="hero">
+      <div class="hero-copy"><p class="eyebrow">CURSO ONLINE · ACESSO VITALÍCIO</p><h1>Guitarra<br><em>essencial.</em></h1><p>Um caminho claro para sair do “não sei o que estudar” e tocar a música que você imagina.</p><div class="hero-actions"><button class="enroll-trigger primary">Começar agora <b>↗</b></button><span>10 módulos<br>+ material de apoio</span></div></div>
+      <div class="hero-card"><div class="record"><i>JL</i><span>GUITARRA<br>ESSENCIAL</span></div><div class="card-info"><b>Do zero ao seu som.</b><small>com Jonas Lins</small></div></div>
+    </section>
+    <section class="numbers"><div><b>10</b><span>módulos</span></div><div><b>+40</b><span>aulas em vídeo</span></div><div><b>∞</b><span>acesso ao conteúdo</span></div><div><b>100%</b><span>no seu ritmo</span></div></section>
+    <section class="course" id="modulos"><div class="heading"><p class="eyebrow">O QUE VOCÊ VAI APRENDER</p><h2>Seu mapa para<br><em>tocar de verdade.</em></h2></div><div class="module-list" id="module-list"></div></section>
+    <section class="for-you" id="sobre"><div><p class="eyebrow">PARA QUEM É</p><h2>Menos teoria solta.<br>Mais <em>música.</em></h2></div><div class="checks"><p>✓ Para quem está começando do zero</p><p>✓ Para quem já toca e quer organizar os estudos</p><p>✓ Para quem quer acompanhar suas canções favoritas</p><p>✓ Para quem quer aprender no próprio tempo</p></div></section>
+    <section class="offer"><div><p class="eyebrow">INSCRIÇÕES ABERTAS</p><h2>Comece a tocar<br>hoje.</h2><p class="offer-text">Faça parte da primeira turma do Guitarra Essencial.</p></div><div class="price"><span>por apenas</span><b>R$ <strong>297</strong></b><small>ou 12x de R$ 29,70</small><button class="enroll-trigger primary">Quero minha vaga <b>↗</b></button><em>Pagamento seguro</em></div></section>
+  </main>
+  <footer><a class="logo" href="index.html"><span>JL</span> JONAS LINS</a><p>© 2026 JONAS LINS</p></footer>
+
+  <dialog id="auth-modal"><button class="close" aria-label="Fechar">×</button><div id="login-view"><p class="eyebrow">BEM-VINDO DE VOLTA</p><h2>Acesse seu<br><em>curso.</em></h2><label>E-mail<input type="email" placeholder="voce@email.com"></label><label>Senha<input type="password" placeholder="Sua senha"></label><button class="primary full" id="login-button">Entrar no curso <b>→</b></button><p class="switch">Ainda não tem acesso? <button class="show-checkout">Inscreva-se</button></p></div><div id="checkout-view" hidden><p class="eyebrow">INSCRIÇÃO</p><h2>Sua vaga está<br><em>quase lá.</em></h2><div class="order"><span>Guitarra Essencial</span><b>R$ 297</b></div><label>Seu nome<input type="text" placeholder="Nome completo"></label><label>E-mail<input type="email" placeholder="voce@email.com"></label><label>Crie uma senha<input type="password" minlength="6" placeholder="Mínimo de 6 caracteres"></label><button class="primary full" id="payment-button">Ir para pagamento <b>↗</b></button><p class="switch">Já possui acesso? <button class="show-login">Fazer login</button></p></div></dialog>
+  <script src="course-config.js"></script><script type="module" src="curso.js"></script>
+</body>
+</html>
