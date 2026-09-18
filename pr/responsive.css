@@ -1,0 +1,461 @@
+/*
+ * Responsive hardening across the public site, scheduler, checkout and private areas.
+ * The original editorial/analog identity stays intact while controls and dense content
+ * gain predictable behavior from 320px through large desktop widths.
+ */
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
+}
+
+.primary,
+.button,
+input:not([type="checkbox"]),
+select,
+textarea {
+  min-height: 44px;
+}
+
+.admin-body .module-check {
+  min-height: 44px;
+}
+
+/* Landing page and scheduler */
+.landing-body .menu-toggle,
+.landing-body .month-button,
+.landing-body .time-slot,
+.landing-body .booking-form input,
+.landing-body .booking-form select {
+  min-height: 44px;
+}
+
+.landing-body .class-card a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.landing-body .calendar-day {
+  min-width: 24px;
+  min-height: 24px;
+}
+
+/* Checkout dialogs must remain operable on short screens and in landscape. */
+.course-body dialog,
+.admin-body dialog {
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+}
+
+.course-body .close,
+.admin-body .close {
+  width: 44px;
+  height: 44px;
+  right: 6px;
+  top: 4px;
+}
+
+.course-body .switch button {
+  min-height: 44px;
+  padding: 8px 4px;
+}
+
+/* The dashboard header is also a <header>; reset the public header spacing. */
+.admin-body .admin-header {
+  height: auto;
+  padding: 0 0 36px;
+}
+
+.admin-body .admin-table-wrap {
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-body .admin-table-wrap:focus-visible {
+  outline: 3px solid var(--orange);
+  outline-offset: 3px;
+}
+
+.admin-body .admin-table-wrap table {
+  min-width: 620px;
+}
+
+@media (max-width: 800px) {
+  .landing-body .topbar {
+    z-index: 10;
+  }
+
+  .landing-body .menu-toggle {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .landing-body .nav.open {
+    z-index: 11;
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 12px 20px rgba(27, 27, 25, .08);
+  }
+
+  .landing-body .nav.open a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .landing-body .class-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .landing-body .month-button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .landing-body .time-slot {
+    padding: 10px 14px;
+  }
+
+  .admin-body .admin-sidebar {
+    padding: 20px 6vw 0;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+  }
+
+  .admin-body .admin-sidebar .logo {
+    order: 1;
+  }
+
+  .admin-body .admin-sidebar .admin-label {
+    display: none;
+  }
+
+  .admin-body .admin-sidebar > button {
+    display: flex;
+    order: 2;
+    align-items: center;
+    min-height: 44px;
+    margin: 0 0 0 auto;
+    padding: 0 12px;
+    color: var(--cream);
+  }
+
+  .admin-body .admin-nav {
+    display: flex;
+    order: 3;
+    flex: 1 0 100%;
+    flex-direction: row;
+    gap: 4px;
+    margin-top: 16px;
+    padding-bottom: 12px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .admin-body .admin-nav a {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+    white-space: nowrap;
+  }
+
+  .admin-body .admin-main {
+    padding-top: 42px;
+  }
+
+  .admin-body .admin-header {
+    padding: 0 0 42px;
+  }
+
+  .admin-body .section-line {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .admin-body .admin-button,
+  .admin-body .confirm-booking {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 720px) {
+  .course-body > header,
+  .student-body > header {
+    height: auto;
+    min-height: 76px;
+  }
+
+  .course-body > header > nav {
+    gap: 7px;
+  }
+
+  .course-body > header > nav button,
+  .student-body > header > button {
+    min-height: 44px;
+  }
+
+  /* The base course rule hides every nav link; dashboard links remain available. */
+  .admin-body .admin-sidebar .admin-nav a {
+    display: flex;
+  }
+
+  .student-body .student {
+    padding: 72px 8vw;
+  }
+
+  .student-body .student-courses {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .student-body .student-course {
+    min-width: 0;
+    padding: 22px;
+  }
+
+  .student-body .student-course h2 {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 500px) {
+  .landing-body h1 {
+    font-size: clamp(58px, 20vw, 64px);
+    line-height: .94;
+  }
+
+  .landing-body h2 {
+    font-size: clamp(40px, 14vw, 54px);
+  }
+
+  .landing-body .hero {
+    display: flex;
+    min-height: 0;
+    padding: 125px 0 52px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .landing-body .hero-copy {
+    width: 100%;
+    padding: 0 8vw 42px;
+  }
+
+  .landing-body .hero-text {
+    width: 100%;
+    max-width: 270px;
+    font-size: 13px;
+  }
+
+  .landing-body .hero-art {
+    position: relative;
+    inset: auto;
+    width: 92%;
+    height: 340px;
+    margin-left: auto;
+    flex: 0 0 auto;
+  }
+
+  .landing-body .hero-bottom {
+    position: relative;
+    inset: auto;
+    margin: 30px 8vw 0;
+  }
+
+  .landing-body .hero-actions {
+    flex-wrap: wrap;
+  }
+
+  .landing-body .play-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  .landing-body .class-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .landing-body .credentials {
+    flex-wrap: wrap;
+  }
+
+  .landing-body .booking {
+    display: block;
+    padding: 76px 0;
+  }
+
+  .landing-body .booking-heading {
+    padding: 0 7vw 36px;
+  }
+
+  .landing-body .booking-note {
+    margin-top: 30px;
+  }
+
+  .landing-body .scheduler {
+    width: calc(100% - 8px);
+    box-shadow: 8px 8px 0 rgba(27, 27, 25, .18);
+  }
+
+  .landing-body .calendar-panel,
+  .landing-body .time-panel {
+    padding: 22px 8px;
+  }
+
+  .landing-body .calendar-top {
+    padding-inline: 4px;
+  }
+
+  .landing-body .weekdays {
+    font-size: 7px;
+  }
+
+  .landing-body .calendar-days {
+    gap: 1px;
+  }
+
+  .landing-body .calendar-day {
+    width: 100%;
+    min-height: 40px;
+    max-height: none;
+  }
+
+  .landing-body .time-panel {
+    padding-inline: 18px;
+  }
+
+  .landing-body footer .logo {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-body > header,
+  .student-body > header {
+    padding-inline: 4vw;
+  }
+
+  .course-body > header > nav {
+    gap: 5px;
+  }
+
+  .course-body > header .logo {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .course-body > header > nav .enroll-trigger {
+    padding-inline: 10px;
+  }
+
+  .course-body > header > nav .login-trigger {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .course-body .hero h1 {
+    font-size: clamp(52px, 17vw, 58px);
+  }
+
+  .course-body .hero-copy {
+    padding: 76px 8vw 60px;
+  }
+
+  .course-body .hero-actions {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .course-body .record {
+    width: min(82vw, 280px);
+  }
+
+  .course-body .course,
+  .course-body .for-you,
+  .course-body .offer {
+    padding: 72px 8vw;
+  }
+
+  .course-body .module {
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .course-body .module > span:last-child {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .course-body .price {
+    min-width: 0;
+    padding: 26px 22px;
+  }
+
+  .course-body dialog,
+  .admin-body dialog {
+    width: calc(100vw - 32px);
+    padding: 30px 24px;
+    box-shadow: 8px 8px 0 var(--yellow);
+  }
+
+  .course-body dialog h2,
+  .admin-body dialog h2 {
+    font-size: clamp(38px, 14vw, 46px);
+  }
+
+  .course-body .order {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .student-body .student h1 {
+    font-size: clamp(42px, 15vw, 58px);
+    letter-spacing: -3px;
+    overflow-wrap: anywhere;
+  }
+
+  .admin-body .admin-main {
+    padding: 36px 6vw 80px;
+  }
+
+  .admin-body .admin-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+  }
+
+  .admin-body .admin-sidebar .admin-nav a {
+    justify-content: center;
+  }
+
+  .admin-body .admin-header {
+    padding-bottom: 36px;
+  }
+
+  .admin-body .admin-header h1 {
+    font-size: clamp(40px, 14vw, 48px);
+  }
+
+  .admin-body .admin-section {
+    margin-top: 56px;
+  }
+
+  .admin-body .section-line {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-body .section-line .admin-button {
+    width: 100%;
+    justify-content: center;
+  }
+}

@@ -3,11 +3,20 @@ const nav = document.querySelector('.nav');
 button?.addEventListener('click', () => {
   const isOpen = nav.classList.toggle('open');
   button.setAttribute('aria-expanded', isOpen);
+  button.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
 });
 nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
   nav.classList.remove('open');
   button.setAttribute('aria-expanded', 'false');
+  button.setAttribute('aria-label', 'Abrir menu');
 }));
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape' || !nav?.classList.contains('open')) return;
+  nav.classList.remove('open');
+  button.setAttribute('aria-expanded', 'false');
+  button.setAttribute('aria-label', 'Abrir menu');
+  button.focus();
+});
 
 const calendarDays = document.querySelector('#calendar-days'), monthLabel = document.querySelector('#month-label');
 const dateLabel = document.querySelector('#selected-date'), availabilityCopy = document.querySelector('#availability-copy');
