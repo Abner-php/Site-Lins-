@@ -3,6 +3,7 @@ const statusText = document.querySelector('#admin-status');
 const cell = text => `<td>${text}</td>`;
 const esc = text => String(text ?? '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
 const configured = config && !config.supabaseUrl.startsWith('COLE_') && !config.supabaseAnonKey.startsWith('COLE_');
+const saoPauloDateTime = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'short', timeZone: 'America/Sao_Paulo' });
 let supabase;
 let courseId;
 
@@ -38,7 +39,7 @@ if (!configured) {
       document.querySelector('#stat-bookings').textContent = (bookings ?? []).filter(item => item.status === 'pending').length;
       document.querySelector('#stat-revenue').textContent = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0}).format(active.reduce((sum,item) => sum + (item.courses?.price_cents ?? 0), 0) / 100);
       document.querySelector('#student-count').textContent = `${active.length} aluno${active.length === 1 ? '' : 's'}`;
-      document.querySelector('#bookings-table').innerHTML = bookings?.length ? bookings.map(item => `<tr>${cell(esc(item.student_name))}${cell(esc(item.instrument))}${cell(new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short'}).format(new Date(item.starts_at)))}${cell(`<span class="status ${item.status}">${item.status === 'confirmed' ? 'Confirmada' : 'Pendente'}</span>`)}${cell(item.status === 'pending' ? `<button class="confirm-booking" data-id="${item.id}">Confirmar</button>` : '')}</tr>`).join('') : '<tr><td colspan="5">Nenhum agendamento por enquanto.</td></tr>';
+      document.querySelector('#bookings-table').innerHTML = bookings?.length ? bookings.map(item => `<tr>${cell(esc(item.student_name))}${cell(esc(item.instrument))}${cell(saoPauloDateTime.format(new Date(item.starts_at)))}${cell(`<span class="status ${item.status}">${item.status === 'confirmed' ? 'Confirmada' : 'Pendente'}</span>`)}${cell(item.status === 'pending' ? `<button class="confirm-booking" data-id="${item.id}">Confirmar</button>` : '')}</tr>`).join('') : '<tr><td colspan="5">Nenhum agendamento por enquanto.</td></tr>';
       document.querySelector('#students-table').innerHTML = active.length ? active.map(item => `<tr>${cell(esc(profileNames[item.user_id] || 'Aluno'))}${cell(esc(item.courses?.title || 'Curso'))}${cell('<span class="status confirmed">Liberado</span>')}${cell(new Intl.DateTimeFormat('pt-BR',{dateStyle:'short'}).format(new Date(item.created_at)))}</tr>`).join('') : '<tr><td colspan="4">Nenhum aluno com acesso liberado ainda.</td></tr>';
       renderModules(modules);
       document.querySelectorAll('.confirm-booking').forEach(button => button.addEventListener('click', async () => {
