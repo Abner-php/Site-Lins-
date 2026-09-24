@@ -13,6 +13,8 @@
 7. Em **Edge Functions > Secrets**, cadastre `MERCADO_PAGO_ACCESS_TOKEN`, `MERCADO_PAGO_WEBHOOK_SECRET` e `SITE_URL`. A service role é disponibilizada pelo Supabase para a função; nunca a coloque no frontend.
 8. No Mercado Pago, configure o Webhook para `/functions/v1/payment-webhook`, habilite o evento Pagamentos e copie a assinatura secreta para `MERCADO_PAGO_WEBHOOK_SECRET`.
 
+O webhook aceita somente assinaturas HMAC válidas com `x-signature` e `x-request-id`. Por padrão, a assinatura expira em 5 minutos para bloquear replays antigos. A migration `20260924_webhook_idempotency.sql` registra cada pagamento de forma transacional: entregas repetidas retornam sucesso ao Mercado Pago, mas não repetem a matrícula nem os efeitos financeiros.
+
 O bucket privado `course-videos` e as políticas de acesso são criados pelas migrations. Vídeos enviados pelo painel do professor recebem URLs assinadas de uma hora e só podem ser solicitados por professores ou alunos com matrícula ativa.
 
 Os agendamentos são persistidos como `timestamptz` (instantes UTC). A migration `20260918_booking_consistency.sql` impede duas reservas ativas no mesmo horário, libera o horário após cancelamento e expõe somente os horários ocupados ao calendário público. A interface e o painel exibem os horários em `America/Sao_Paulo`.
