@@ -33,20 +33,21 @@
     </section>
     <section id="modulos" class="admin-section">
       <div class="section-line"><div><p class="eyebrow">GUITARRA ESSENCIAL</p><h2>Conteúdo</h2></div><button class="admin-button" id="new-module">+ Novo módulo</button></div>
-      <div class="content-grid" id="modules-grid"></div>
+      <p class="module-help">Arraste os cartões ou use as setas para alterar a ordem.</p>
+      <div class="content-grid" id="modules-grid"><p>Carregando módulos...</p></div>
     </section>
   </main>
   <dialog id="module-dialog" class="module-dialog">
-    <button type="button" class="close" id="cancel-module" aria-label="Fechar">×</button>
+    <button type="button" class="close" id="close-module-dialog" aria-label="Fechar">×</button>
     <form id="module-form">
-      <p class="eyebrow">NOVO CONTEÚDO</p><h2>Criar módulo</h2>
-      <label>Posição<input id="module-position" name="position" type="number" min="1" required></label>
-      <label>Título<input name="title" required></label>
-      <label>Descrição<textarea name="description" rows="4"></textarea></label>
-      <label>Arquivo de vídeo protegido<input name="video_file" type="file" accept="video/*"></label>
-      <label>Ou URL externa<input name="video_url" type="url" placeholder="https://..."></label>
-      <label class="module-check"><input name="is_published" type="checkbox" checked> Publicar agora</label>
-      <button type="submit" class="primary full">Salvar módulo</button>
+      <p class="eyebrow" id="module-dialog-kicker">NOVO MÓDULO</p><h2 id="module-dialog-title">Criar módulo</h2>
+      <input type="hidden" id="module-id">
+      <label>Título<input id="module-title" maxlength="160" minlength="3" required placeholder="Ex.: Acordes essenciais"></label>
+      <label>Descrição<textarea id="module-description" maxlength="3000" rows="5" placeholder="O que o aluno aprenderá?"></textarea></label>
+      <label>Vídeo — MP4 ou WebM, até 500 MB<input id="module-video" type="file" accept="video/mp4,video/webm"></label>
+      <div class="upload-progress" id="upload-progress" hidden><span id="upload-progress-label">Enviando 0%</span><progress id="upload-progress-bar" max="100" value="0"></progress></div>
+      <p class="form-error" id="module-error" role="alert"></p>
+      <button type="submit" class="primary full" id="save-module">Salvar módulo</button>
     </form>
   </dialog>
   <script src="course-config.js"></script><script type="module" src="admin.js"></script>

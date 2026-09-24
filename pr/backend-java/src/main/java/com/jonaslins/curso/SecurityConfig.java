@@ -1,6 +1,8 @@
 package com.jonaslins.curso;
 
 import java.util.List;
+import java.util.Arrays;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +20,7 @@ import org.springframework.web.cors.*;
   @Bean PasswordEncoder passwordEncoder(){ return new BCryptPasswordEncoder(12); }
   @Bean UserDetailsService userDetailsService(UserRepository users){ return email -> users.findByEmail(email.toLowerCase()).orElseThrow(() -> new org.springframework.security.core.userdetails.UsernameNotFoundException("Usuário não encontrado")); }
   @Bean AuthenticationManager authenticationManager(AuthenticationConfiguration c) throws Exception { return c.getAuthenticationManager(); }
-  @Bean CorsConfigurationSource cors(){ var c=new CorsConfiguration(); c.setAllowedOrigins(List.of("http://localhost:4173","https://SEU-DOMINIO.com")); c.setAllowedMethods(List.of("GET","POST","PATCH","DELETE")); c.setAllowedHeaders(List.of("Authorization","Content-Type")); var s=new UrlBasedCorsConfigurationSource(); s.registerCorsConfiguration("/**",c); return s; }
+  @Bean CorsConfigurationSource cors(@Value("${app.allowed-origins}") String origins){ var c=new CorsConfiguration(); c.setAllowedOrigins(Arrays.stream(origins.split(",")).map(String::trim).filter(value -> !value.isBlank()).toList()); c.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS")); c.setAllowedHeaders(List.of("Authorization","Content-Type")); var s=new UrlBasedCorsConfigurationSource(); s.registerCorsConfiguration("/**",c); return s; }
   @Bean SecurityFilterChain security(HttpSecurity http, JwtFilter jwt) throws Exception {
     return http.csrf(c->c.disable()).cors(c->{}).sessionManagement(s->s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
       .headers(h->h.contentSecurityPolicy(c->c.policyDirectives("default-src 'self'" )).frameOptions(f->f.deny()).referrerPolicy(r->r.policy(org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter.ReferrerPolicy.NO_REFERRER)))

@@ -42,9 +42,31 @@ async function continueCheckout() {
 }
 
 document.querySelector('#login-button').addEventListener('click', async () => {
-  if (!configured) return message('O login será ativado assim que as chaves do Supabase forem cadastradas.');
   const inputs = loginView.querySelectorAll('input');
-  const { error } = await supabase.auth.signInWithPassword({ email: inputs[0].value.trim(), password: inputs[1].value });
+  const email = inputs[0].value.trim();
+  const password = inputs[1].value;
+
+  try {
+    const response = await fetch(`${config.apiUrl.replace(/\/$/, '')}/api/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+    if (response.ok) {
+      const session = await response.json();
+      if (session.role === 'TEACHER') {
+        localStorage.setItem('course_token', session.token);
+        localStorage.setItem('course_role', session.role);
+        window.location.href = 'admin.html';
+        return;
+      }
+    }
+  } catch {
+    // Se a API Java estiver indisponível, o login normal do aluno continua no Supabase.
+  }
+
+  if (!configured) return message('E-mail ou senha inválidos.');
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) return message('E-mail ou senha inválidos.');
   if (localStorage.getItem(pendingKey) === config.courseSlug) return continueCheckout();
   window.location.href = 'aluno.html';

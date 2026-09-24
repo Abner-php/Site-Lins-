@@ -1,4 +1,8 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 505MB
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/jonaslins}
     username: ${DATABASE_USER:postgres}
@@ -12,3 +16,8 @@ server:
 app:
   jwt-secret: ${JWT_SECRET:troque-por-uma-chave-com-ao-menos-32-caracteres}
   jonas-email: ${APP_JONAS_EMAIL:jonas.guita.jazz@gmail.com}
+  allowed-origins: ${APP_ALLOWED_ORIGINS:http://localhost:4173}
+  storage:
+    path: ${VIDEO_STORAGE_PATH:./data/uploads}
+    max-video-bytes: 524288000
+    cleanup-delay-ms: 60000
