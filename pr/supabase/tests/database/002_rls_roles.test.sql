@@ -100,11 +100,12 @@ select throws_ok(
   $$insert into storage.objects (bucket_id, name) values ('course-videos', 'rls-guitarra/student-upload.mp4')$$,
   '42501', null, 'student cannot upload course videos'
 );
-select is(
-  (with changed as (
+select results_eq(
+  $$with changed as (
     update public.bookings set status = 'confirmed' returning 1
-  ) select count(*)::integer from changed),
-  0, 'student cannot update bookings'
+  ) select count(*)::integer from changed$$,
+  $$values (0::integer)$$,
+  'student cannot update bookings'
 );
 reset role;
 
@@ -149,13 +150,14 @@ select throws_ok(
   $$insert into storage.objects (bucket_id, name) values ('avatars', 'outside-scope.mp4')$$,
   '42501', null, 'teacher storage access is limited to course-videos'
 );
-select is(
-  (with changed as (
+select results_eq(
+  $$with changed as (
     update public.profiles set full_name = 'Alterado pelo professor'
     where id = '11111111-1111-1111-1111-111111111111'
     returning 1
-  ) select count(*)::integer from changed),
-  0, 'teacher cannot edit another user profile'
+  ) select count(*)::integer from changed$$,
+  $$values (0::integer)$$,
+  'teacher cannot edit another user profile'
 );
 
 reset role;
