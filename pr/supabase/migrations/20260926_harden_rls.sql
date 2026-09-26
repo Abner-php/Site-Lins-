@@ -10,14 +10,12 @@ alter table public.profiles enable row level security;
 alter table public.bookings enable row level security;
 alter table public.enrollments enable row level security;
 alter table public.modules enable row level security;
-alter table storage.objects enable row level security;
 
 revoke all on table public.profiles from anon, authenticated;
 revoke all on table public.bookings from anon, authenticated;
 revoke all on table public.enrollments from anon, authenticated;
 revoke all on table public.modules from anon, authenticated;
 revoke all on table public.courses from anon, authenticated;
-revoke all on table storage.objects from anon, authenticated;
 
 grant select on table public.courses to anon, authenticated;
 grant insert, update, delete on table public.courses to authenticated;
@@ -26,7 +24,6 @@ grant update (full_name) on table public.profiles to authenticated;
 grant select, insert, update, delete on table public.modules to authenticated;
 grant select, insert on table public.enrollments to authenticated;
 grant select, update, delete on table public.bookings to authenticated;
-grant select, insert, update, delete on table storage.objects to authenticated;
 
 alter function public.is_teacher() set search_path = '';
 alter function public.handle_new_user() set search_path = '';

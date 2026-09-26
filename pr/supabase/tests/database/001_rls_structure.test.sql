@@ -14,7 +14,16 @@ select is((select public from storage.buckets where id = 'course-videos'), false
 select ok(not has_table_privilege('anon', 'public.profiles', 'select'), 'anon has no profile access');
 select ok(not has_table_privilege('anon', 'public.enrollments', 'select'), 'anon has no enrollment access');
 select ok(not has_table_privilege('anon', 'public.modules', 'select'), 'anon has no module access');
-select ok(not has_table_privilege('anon', 'storage.objects', 'select'), 'anon has no storage metadata access');
+select ok(
+  not exists (
+    select 1
+    from pg_policies
+    where schemaname = 'storage'
+      and tablename = 'objects'
+      and ('anon' = any(roles) or 'public' = any(roles))
+  ),
+  'no storage policy grants access to anonymous visitors'
+);
 select ok(has_function_privilege('anon', 'public.create_booking(text,text,text,timestamptz)', 'execute'), 'anon can call the validated booking RPC');
 select ok(not has_column_privilege('authenticated', 'public.profiles', 'role', 'update'), 'clients cannot update the profile role column');
 

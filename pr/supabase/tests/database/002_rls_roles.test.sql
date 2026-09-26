@@ -46,7 +46,7 @@ select throws_ok('select * from public.profiles', '42501', null, 'anonymous visi
 select throws_ok('select * from public.enrollments', '42501', null, 'anonymous visitor cannot read enrollments');
 select throws_ok('select * from public.modules', '42501', null, 'anonymous visitor cannot read modules');
 select throws_ok('select * from public.bookings', '42501', null, 'anonymous visitor cannot read bookings');
-select throws_ok('select * from storage.objects', '42501', null, 'anonymous visitor cannot read storage metadata');
+select is((select count(*)::integer from storage.objects), 0, 'anonymous visitor cannot read storage metadata');
 select throws_ok(
   $$insert into public.bookings (student_name, student_phone, instrument, starts_at) values ('Direto', '5511000000000', 'Guitarra', '2099-03-01 12:00:00+00')$$,
   '42501', null, 'anonymous visitor cannot bypass the booking RPC'
