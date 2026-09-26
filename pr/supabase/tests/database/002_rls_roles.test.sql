@@ -142,9 +142,14 @@ select lives_ok(
   $$update storage.objects set name = 'rls-baixo/teacher-renamed.mp4' where name = 'rls-baixo/teacher-upload.mp4'$$,
   'teacher can update course video metadata'
 );
+-- The Storage API enables this transaction-local guard before deleting the
+-- metadata row. Direct SQL deletes intentionally fail to prevent orphaned
+-- objects, so the test mirrors the API path while still exercising the RLS
+-- DELETE policy as the authenticated teacher.
+select set_config('storage.allow_delete_query', 'true', true);
 select lives_ok(
   $$delete from storage.objects where name = 'rls-baixo/teacher-renamed.mp4'$$,
-  'teacher can delete a course video'
+  'teacher can delete a course video through the Storage API path'
 );
 select throws_ok(
   $$insert into storage.objects (bucket_id, name) values ('avatars', 'outside-scope.mp4')$$,
