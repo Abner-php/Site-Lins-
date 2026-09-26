@@ -13,6 +13,17 @@
 7. Em **Edge Functions > Secrets**, cadastre `MERCADO_PAGO_ACCESS_TOKEN`, `MERCADO_PAGO_WEBHOOK_SECRET` e `SITE_URL`. A service role é disponibilizada pelo Supabase para a função; nunca a coloque no frontend.
 8. No Mercado Pago, configure o Webhook para `/functions/v1/payment-webhook`, habilite o evento Pagamentos e copie a assinatura secreta para `MERCADO_PAGO_WEBHOOK_SECRET`.
 
+## Verificação das políticas de acesso
+
+Com Docker e Supabase CLI disponíveis, execute a suíte local a partir da pasta `pr`:
+
+```bash
+supabase start
+supabase test db
+```
+
+Os testes recriam o banco pelas migrations e exercitam acessos positivos e negativos como visitante anônimo, aluno autenticado e professor. A mesma suíte roda automaticamente no GitHub Actions quando migrations ou testes do Supabase mudam.
+
 O bucket privado `course-videos` e as políticas de acesso são criados pelas migrations. Vídeos enviados pelo painel do professor recebem URLs assinadas de uma hora e só podem ser solicitados por professores ou alunos com matrícula ativa.
 
 Os agendamentos são persistidos como `timestamptz` (instantes UTC). A migration `20260918_booking_consistency.sql` impede duas reservas ativas no mesmo horário, libera o horário após cancelamento e expõe somente os horários ocupados ao calendário público. A interface e o painel exibem os horários em `America/Sao_Paulo`.
